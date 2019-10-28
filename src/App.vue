@@ -1,28 +1,53 @@
-<template>
+<template lang="html">
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>STUDIO GHIBLI FILMS</h1>
+      <film-filter-form :filmData="filmData" />
+      <film-detail />
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import {eventBus} from "@/main.js"
+import FilmFilterForm from './components/FilmFilterForm.vue'
+import FilmDetail from './components/FilmDetail.vue'
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    "film-filter-form": FilmFilterForm,
+    "film-detail": FilmDetail
+  },
+  data(){
+    return{
+      filmData: null,
+      filmTitle: null,
+      filmReleaseDate: null,
+    }
+  },
+  mounted(){
+    fetch("https://ghibliapi.herokuapp.com/films")
+    .then(response => response.json())
+    .then(json => {
+      this.filmData = json
+      this.filmTitle = json.title
+      this.filmReleaseDate = json.release_date
+    })
   }
-}
+};
+methods: {
+
+};
 </script>
 
-<style>
+<style lang="css">
+body {
+  background-color: salmon;
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'timesnewroman';
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: salmon;
 }
 </style>
